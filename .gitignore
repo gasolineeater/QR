@@ -4,8 +4,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
-# Generated QR codes
+# Generated QR codes and uploaded logos
 static/qrcodes/*.png
+static/logos/*.png
+static/logos/*.jpg
+static/logos/*.jpeg
+static/logos/*.gif
+static/logos/*.svg
 qr_code.html
 
 # Distribution / packaging

@@ -5,6 +5,7 @@ A simple Python-based QR code generator that converts text or URLs to QR codes.
 ## Features
 
 - Generate QR codes from text or URLs
+- Add custom logos to the center of QR codes
 - View QR codes in the browser
 - Download QR codes as PNG files (when qrcode library is installed)
 - Download QR codes as ASCII text (fallback mode)
@@ -30,7 +31,9 @@ For full functionality (PNG QR codes):
    http://localhost:8000/
    ```
 
-3. Enter the text or URL you want to convert to a QR code and click "Generate QR Code"
+3. Enter the text or URL you want to convert to a QR code
+4. Optionally, check the "Add a logo" option and upload a logo image
+5. Click "Generate QR Code"
 
 ### Method 2: Using the Simple Generator
 
@@ -38,7 +41,7 @@ For full functionality (PNG QR codes):
    ```
    python3 generate_qr.py "Your text or URL here"
    ```
-   
+
    Or run it without arguments to be prompted for input:
    ```
    python3 generate_qr.py
@@ -54,6 +57,7 @@ For full functionality (PNG QR codes):
 - `templates/index.html` - HTML template for the web interface
 - `static/css/style.css` - CSS styles for the web interface
 - `static/qrcodes/` - Directory where generated QR codes are stored
+- `static/logos/` - Directory where uploaded logos are stored
 
 ## Notes
 
@@ -62,3 +66,8 @@ For full functionality (PNG QR codes):
   ```
   pip install qrcode[pil]
   ```
+- When adding a logo to a QR code:
+  - Use simple, high-contrast logos for best results
+  - The logo will be automatically resized to fit properly (max 30% of QR code size)
+  - Higher error correction is automatically used to ensure the QR code remains scannable
+  - Test the QR code with different scanners to ensure compatibility

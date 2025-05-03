@@ -5,19 +5,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code Generator</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+        function toggleLogoUpload() {
+            const useLogoCheckbox = document.getElementById('use_logo');
+            const logoUploadSection = document.getElementById('logo_upload_section');
+
+            if (useLogoCheckbox.checked) {
+                logoUploadSection.style.display = 'block';
+            } else {
+                logoUploadSection.style.display = 'none';
+            }
+        }
+
+        function previewLogo() {
+            const logoInput = document.getElementById('logo');
+            const logoPreview = document.getElementById('logo_preview');
+            const logoPreviewContainer = document.getElementById('logo_preview_container');
+
+            if (logoInput.files && logoInput.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    logoPreview.src = e.target.result;
+                    logoPreviewContainer.style.display = 'block';
+                }
+
+                reader.readAsDataURL(logoInput.files[0]);
+            }
+        }
+
+        // Initialize on page load
+        window.onload = function() {
+            toggleLogoUpload();
+        }
+    </script>
 </head>
 <body>
     <div class="container">
         <h1>QR Code Generator</h1>
-        
-        <form action="{{ url_for('generate') }}" method="post">
+
+        <form action="{{ url_for('generate') }}" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="text">Enter text or URL:</label>
                 <input type="text" id="text" name="text" value="{{ text if text else '' }}" required>
             </div>
+
+            <div class="form-group logo-option">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="use_logo" name="use_logo" onchange="toggleLogoUpload()">
+                    Add a logo to the center of the QR code
+                </label>
+            </div>
+
+            <div id="logo_upload_section" class="form-group logo-upload" style="display: none;">
+                <label for="logo">Upload Logo (PNG, JPG, or GIF):</label>
+                <input type="file" id="logo" name="logo" accept="image/*" onchange="previewLogo()">
+
+                <div id="logo_preview_container" class="logo-preview-container" style="display: none;">
+                    <p>Logo Preview:</p>
+                    <img id="logo_preview" class="logo-preview" src="" alt="Logo Preview">
+                </div>
+
+                <div class="logo-info">
+                    <p><strong>Note:</strong> Adding a logo may reduce the QR code's readability. For best results:</p>
+                    <ul>
+                        <li>Use a simple, high-contrast logo</li>
+                        <li>Test the QR code with different scanners</li>
+                        <li>The logo will be automatically resized to fit properly</li>
+                    </ul>
+                </div>
+            </div>
+
             <button type="submit">Generate QR Code</button>
         </form>
-        
+
         {% if qr_code %}
         <div class="result">
             <h2>Your QR Code:</h2>
