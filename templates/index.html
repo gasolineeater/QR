@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>QR Code Generator</h1>
+        
+        <form action="{{ url_for('generate') }}" method="post">
+            <div class="form-group">
+                <label for="text">Enter text or URL:</label>
+                <input type="text" id="text" name="text" value="{{ text if text else '' }}" required>
+            </div>
+            <button type="submit">Generate QR Code</button>
+        </form>
+        
+        {% if qr_code %}
+        <div class="result">
+            <h2>Your QR Code:</h2>
+            <img src="{{ url_for('serve_qrcode', filename=qr_code) }}" alt="QR Code">
+            <div class="download-link">
+                <a href="{{ url_for('download', filename=qr_code) }}" class="download-btn">Download QR Code</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
